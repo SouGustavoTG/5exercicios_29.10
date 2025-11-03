@@ -25,7 +25,7 @@ for c in range(1, 5):
 os.system('cls')
 print("----- Boletim dos Alunos -----")
 for k, v in cadastro.items():
-    print(f"O aluno {k} teve média {v['media']:.1f}")
+    print(f"O aluno(a) {k} teve média {v['media']:.1f}")
 print("------------------------------")
 
 while True:
