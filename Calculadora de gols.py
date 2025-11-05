@@ -1,3 +1,6 @@
+import os
+os.system('cls')
+
 jogador = {}
 gols = []
 total = 0

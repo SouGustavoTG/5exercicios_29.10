@@ -1,3 +1,6 @@
+import os
+os.system('cls')
+
 pessoas = []
 soma_idades = 0
 

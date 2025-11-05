@@ -12,14 +12,27 @@ def find_scripts(root):
     try:
         for f in os.listdir(root):
             lf = f.lower()
-            if lf.startswith('e') and lf.endswith('.py'):
+            # Aceita E*.py para exercícios, ignora encerramento.py
+            if lf.startswith('e') and lf.endswith('.py') and not lf.startswith('encerramento'):
                 files.append(f)
     except Exception:
         return []
     return sorted(files)
 
 
+def get_encerramento(root):
+    """Procura pelo arquivo Encerramento.py na pasta."""
+    try:
+        for f in os.listdir(root):
+            if f.lower() == 'encerramento.py':
+                return f
+    except Exception:
+        pass
+    return None
+
+
 SCRIPTS = {}  # será preenchido dinamicamente no início do main()
+ENCERRAMENTO = None  # será preenchido no início do main()
 
 
 def clear():
@@ -52,9 +65,11 @@ def run_script(filename: str):
 def main():
     # detectar scripts automaticamente
     scripts = find_scripts(ROOT)
+    encerramento = get_encerramento(ROOT)
     if not scripts:
         print('Nenhum arquivo E*.py encontrado na pasta.')
         return
+
     # construir dicionário de opções
     SCRIPTS.clear()
     for i, fname in enumerate(scripts, 1):
@@ -62,15 +77,27 @@ def main():
 
     while True:
         clear()
-        print('=== MENU PRINCIPAL ===')
+        print(color('=== MENU PRINCIPAL ===', 36))
+        print(color('--- Exercícios ---', 32))
         for chave in sorted(SCRIPTS, key=lambda x: int(x)):
             print(f"{chave} - Executar {SCRIPTS[chave]}")
-        print('0 - Sair')
-        escolha = input('\nEscolha uma opção: ').strip()
+        
+        if encerramento:
+            print(color('\n--- Encerramento ---', 32))
+            print(f"E - Executar {encerramento}")
+        
+        print('\n0 - Sair')
+        escolha = input('\nEscolha uma opção: ').strip().lower()
 
         if escolha == '0':
             print('Saindo...')
             break
+
+        if escolha == 'e' and encerramento:
+            clear()
+            print(f'Iniciando {encerramento}...')
+            run_script(encerramento)
+            continue
 
         if escolha not in SCRIPTS:
             print('Opção inválida. Tente novamente.')

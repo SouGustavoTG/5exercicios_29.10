@@ -1,3 +1,6 @@
+import os
+os.system('cls')
+
 while True:
     print("escreva [menu] para voltar ao menu principal")
     print("escreva [sair] para Sair")
