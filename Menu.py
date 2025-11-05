@@ -2,7 +2,6 @@ import os
 import sys
 import time
 import subprocess
-from Login import fazer_login
 
 # Configurações
 ROOT = os.path.dirname(__file__)
@@ -161,13 +160,7 @@ def main():
         print(f'Iniciando {SCRIPTS[escolha]}... (menu ficará oculto enquanto a atividade roda)')
         run_script(SCRIPTS[escolha])
 
-
 if __name__ == '__main__':
     clear()
-    # Se chamado diretamente, verifica se veio do Login.py
-    if fazer_login():
-        mostrar_carregando("Iniciando sistema", 1)
-        main()
-    else:
-        print(color('\nAcesso negado.', 'erro'))
-        mostrar_carregando("Encerrando", 1)
+    mostrar_carregando("Iniciando sistema", 1)
+    main()
