@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+from Login import fazer_login  # importa a função de login
 
 os.system('cls')
 
@@ -111,4 +112,9 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # Primeiro faz o login
+    if fazer_login():
+        # Só mostra o menu se o login for bem sucedido
+        main()
+    else:
+        print('Acesso negado.')
