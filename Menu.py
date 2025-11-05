@@ -15,17 +15,27 @@ CORES = {
 }
 
 def find_scripts(root):
-    """Procura por arquivos E*.py na pasta do projeto e retorna uma lista ordenada."""
+    """Procura por arquivos .py na pasta do projeto e retorna uma lista ordenada.
+    Exclui o próprio menu, o login e o encerramento (este último é tratado separadamente).
+    """
+    exclude = {os.path.basename(__file__).lower(), 'login.py', 'encerramento.py'}
     files = []
     try:
         for f in os.listdir(root):
             lf = f.lower()
-            # Aceita E*.py para exercícios, ignora encerramento.py
-            if lf.startswith('e') and lf.endswith('.py') and not lf.startswith('encerramento'):
-                files.append(f)
+            # somente arquivos .py
+            if not lf.endswith('.py'):
+                continue
+            if lf in exclude:
+                continue
+            # ignorar arquivos ocultos e pastas especiais
+            if f.startswith('.') or f.startswith('__'):
+                continue
+            files.append(f)
     except Exception:
         return []
-    return sorted(files)
+    # ordenar por nome (case-insensitive)
+    return sorted(files, key=lambda s: s.lower())
 
 
 def get_encerramento(root):

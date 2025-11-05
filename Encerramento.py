@@ -14,3 +14,10 @@ while True:
         break 
     else:
         print("Opção inválida, tente de novamente")
+
+        print("-=" * 30)
+        print('Trabalho feito por:')
+        print('Luiz Carlos Borges D\'Amico')
+        print('Gustavo Souza Valim')
+        print('Rodrigo Borges')
+        input("Vinicius de Paula Bekert")
