@@ -1,12 +1,11 @@
 import os
 import sys
 import time
-from getpass import getpass  # para esconder a senha digitada
 
 # Configurações
 TENTATIVAS_MAXIMAS = 3
 USUARIO_PADRAO = 'admin'
-SENHA_PADRAO = '123'
+SENHA_PADRAO = ' '
 
 # Cores ANSI
 CORES = {
@@ -43,50 +42,37 @@ def mostrar_carregando(texto, duracao=1):
     print()
 
 def fazer_login():
-    """Gerencia o processo de login. Retorna True se bem sucedido."""
+    """Gerencia o processo de login. Agora pede apenas o usuário."""
     tentativas = TENTATIVAS_MAXIMAS
-    
+
     while tentativas > 0:
         mostrar_cabecalho()
         print(colorir(f'\nTentativas restantes: {tentativas}', 'aviso'))
-        
+
         # Entrada do usuário
         usuario = input('\nUsuário: ').strip()
         if not usuario:
             clear()
-            print(colorir('Erro: Usuario não pode estar vazio!', 'erro'))
+            print(colorir('Erro: Usuário não pode estar vazio!', 'erro'))
             time.sleep(1)
             continue
-            
-        # Entrada da senha (oculta quando possível)
-        try:
-            senha = getpass('Senha: ').strip()
-        except Exception:
-            # fallback para ambientes que não suportam getpass
-            print(colorir('\n(Aviso: seu terminal não permite esconder a senha. A senha será visível enquanto digita.)', 'aviso'))
-            senha = input('Senha: ').strip()
-        if not senha:
-            clear()
-            print(colorir('Erro: Senha não pode estar vazia!', 'erro'))
-            time.sleep(1)
-            continue
-        
-        # Validação
-        if usuario == USUARIO_PADRAO and senha == SENHA_PADRAO:
+
+        # Validação apenas pelo usuário
+        if usuario == USUARIO_PADRAO:
             clear()
             print(colorir('Login realizado com sucesso!', 'sucesso'))
             mostrar_carregando("Carregando menu", 1)
             return True
-        
+
         # Feedback de erro
         clear()
-        print(colorir('Usuário ou senha incorretos!', 'erro'))
+        print(colorir('Usuário incorreto!', 'erro'))
         tentativas -= 1
-        
+
         if tentativas > 0:
             print(f'\nVocê ainda tem {tentativas} tentativa(s).')
             time.sleep(2)
-    
+
     # Tentativas esgotadas
     clear()
     print(colorir('Número máximo de tentativas excedido!', 'erro'))
@@ -119,4 +105,4 @@ if __name__ == '__main__':
     clear()
     if fazer_login():
         executar_menu()
-    sys.exit(0)
+    sys.exit(0) 
