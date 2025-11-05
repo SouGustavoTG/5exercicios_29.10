@@ -58,8 +58,13 @@ def fazer_login():
             time.sleep(1)
             continue
             
-        # Entrada da senha (oculta)
-        senha = getpass('Senha: ').strip()
+        # Entrada da senha (oculta quando possível)
+        try:
+            senha = getpass('Senha: ').strip()
+        except Exception:
+            # fallback para ambientes que não suportam getpass
+            print(colorir('\n(Aviso: seu terminal não permite esconder a senha. A senha será visível enquanto digita.)', 'aviso'))
+            senha = input('Senha: ').strip()
         if not senha:
             clear()
             print(colorir('Erro: Senha não pode estar vazia!', 'erro'))
@@ -114,11 +119,4 @@ if __name__ == '__main__':
     clear()
     if fazer_login():
         executar_menu()
-    sys.exit(0)  # Sai com código 0 (sucesso)
-    if fazer_login():
-        clear()
-        print('Redirecionando para o menu principal...')
-        time.sleep(1)
-        executar_menu()
-    else:
-        print('Falha no login.')
+    sys.exit(0)
